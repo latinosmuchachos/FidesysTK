@@ -107,6 +107,9 @@ def preprocData(data, loadTimes):
             resultData["steps"].append(len(relForce) + resultData["steps"][-1])
         except IndexError:
             resultData["steps"].append(len(relForce))
+
+    # удаление последней линии итераций
+    resultData["steps"].pop()
     return resultData
 
 
@@ -221,6 +224,7 @@ def plot(fig, PLOTS, canvas):
     absMax = np.array(data["absMax"])
     steps = data["steps"]
 
+    # держим в памяти предыдущее считывание
     CURRENT_LOAD_TIME = loadTime
     CURRENT_REL_FORCE = relForce
     CURRENT_ABS_FORCE = absForce
@@ -230,6 +234,7 @@ def plot(fig, PLOTS, canvas):
 
     graph_settings(PLOTS)
 
+    # отрисовка графиков
     plotRelForce.plot(relForce, marker='.', color='#4B0082',
                  linewidth=1, label="REL Force Convergence")
     plotAbsForce.plot(absForce, marker='.', color='#4B0082',
